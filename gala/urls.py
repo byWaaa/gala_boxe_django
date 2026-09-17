@@ -4,5 +4,7 @@ from . import views
 app_name = 'gala'
 
 urlpatterns = [
-    path('', views.Acceuil, name='Acceuil'),
+    path('', views.acceuil, name='acceuil'),
+    path('inscription/', views.inscription, name='inscription'),
 ]
+
