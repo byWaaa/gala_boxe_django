@@ -1,0 +1,21 @@
+<h1>Liste des galas</h1>
+
+{% if page_obj %}
+    <ul>
+    {% for gala in page_obj %}
+        <li><a href="{% url 'gala:detail_gala' gala.id %}">{{ gala.nom }} — {{ gala.date }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <div>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Précédent</a>
+        {% endif %}
+        Page {{ page_obj.number }} sur {{ page_obj.paginator.num_pages }}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Suivant</a>
+        {% endif %}
+    </div>
+{% else %}
+    <p>Aucun gala pour le moment.</p>
+{% endif %}

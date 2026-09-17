@@ -1,0 +1,14 @@
+<h1>{{ gala.nom }}</h1>
+<p>{{ gala.date }} — {{ gala.lieu }}, {{ gala.ville }}</p>
+<p>{{ gala.description }}</p>
+
+<h2>Combats</h2>
+{% if combats %}
+    <ul>
+    {% for combat in combats %}
+        <li>{{ combat.boxeur_rouge }} vs {{ combat.boxeur_bleu }} — {{ combat.get_resultat_display }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Aucun combat programmé pour ce gala.</p>
+{% endif %}
