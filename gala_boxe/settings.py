@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+#lien de redirection après login et logout
+LOGIN_REDIRECT_URL = 'gala:accueil'
+LOGOUT_REDIRECT_URL = 'gala:accueil'
 
 # Application definition
 
