@@ -6,8 +6,9 @@ from gala.forms import InscriptionForm
 from gala.models import Gala, Boxeur
 from django.core.paginator import Paginator
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import ClubForm
+from .forms import ClubForm, BoxeurForm
 from .models import Club
+from django.db.models import ProtectedError
 # Create your views here.
 
 def accueil(request):
@@ -87,3 +88,44 @@ def supprimer_club(request, club_id):
         messages.success(request, "Club supprimé avec succès.")
         return redirect('gala:liste_clubs')
     return render(request, 'gala/club_confirmer_suppression.html', {'club': club})
+
+@staff_member_required
+def liste_boxeurs_staff(request):
+    boxeurs = Boxeur.objects.all()
+    return render(request, 'gala/boxeur_liste_staff.html', {'boxeurs':boxeurs})
+
+@staff_member_required
+def ajouter_boxeur(request):
+    if request.method == 'POST':
+        form = BoxeurForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Boxeur ajouté avec succès.")
+            return redirect('gala:liste_boxeurs_staff')
+    else:
+        form = BoxeurForm()
+    return render(request, 'gala/boxeur_form.html', {'form':form})
+
+@staff_member_required
+def modifier_boxeur(request, boxeur_id):
+    boxeur = get_object_or_404(boxeur, boxeur_id)
+    if request.method == 'POST':
+        form = BoxeurForm(request.POST, request.FILES, instance=boxeur)
+        if form.is_valid():
+            form.save()
+            messages.success(request,"Boxeur modifié avec succès.")
+    else:
+        form = BoxeurForm(instance=boxeur)
+    return render(request, 'gala/boxeur_form.html', {'form': form})
+
+@staff_member_required
+def supprimer_boxeur(request, boxeur_id):
+    boxeur = get_object_or_404(boxeur, boxeur_id)
+    if request.method == 'POST':
+        try:
+            boxeur.delete()
+            messages.success("Boxeur supprimé avec succès.")
+        except ProtectedError:
+            messages.error("Impossible de supprimer ce boxeur. Il a deja un combat en cours")
+        return redirect('gala:liste_boxeurs_staff')
+    return render(request, 'gala/boxeur_confirmer_suppression.html', {'boxeur': boxeur})
