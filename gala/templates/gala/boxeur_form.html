@@ -1,0 +1,9 @@
+<h1>{% if form.instance.pk %}Modifier le boxeur{% else %}Ajouter un boxeur{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+</form>
+
+<a href="{% url 'gala:liste_boxeurs_staff' %}">Retour à la liste</a>
