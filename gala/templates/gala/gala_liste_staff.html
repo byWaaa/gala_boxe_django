@@ -1,0 +1,38 @@
+<h1>Gestion des galas</h1>
+
+<a href="{% url 'gala:ajouter_gala' %}">Ajouter un gala</a>
+
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if galas %}
+    <table border="1">
+        <tr>
+            <th>Nom</th>
+            <th>Date</th>
+            <th>Ville</th>
+            <th>Statut</th>
+            <th>Actions</th>
+        </tr>
+        {% for gala in galas %}
+        <tr>
+            <td>{{ gala.nom }}</td>
+            <td>{{ gala.date }}</td>
+            <td>{{ gala.ville }}</td>
+            <td>{{ gala.get_statut_display }}</td>
+            <td>
+                <a href="{% url 'gala:modifier_gala' gala.id %}">Modifier</a>
+                |
+                <a href="{% url 'gala:supprimer_gala' gala.id %}">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Aucun gala enregistré pour le moment.</p>
+{% endif %}

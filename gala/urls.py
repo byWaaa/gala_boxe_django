@@ -18,5 +18,9 @@ urlpatterns = [
     path('boxeurs-staff/ajouter/', views.ajouter_boxeur, name='ajouter_boxeur'),
     path('boxeurs-staff/<int:boxeur_id>/modifier/', views.modifier_boxeur, name='modifier_boxeur'),
     path('boxeurs-staff/<int:boxeur_id>/supprimer/', views.supprimer_boxeur, name='supprimer_boxeur'),
+    path('galas-staff/', views.liste_galas_staff, name='liste_galas_staff'),
+    path('galas-staff/ajouter/', views.ajouter_gala, name='ajouter_gala'),
+    path('galas-staff/<int:gala_id>/modifier/', views.modifier_gala, name='modifier_gala'),
+    path('galas-staff/<int:gala_id>/supprimer/', views.supprimer_gala, name='supprimer_gala'),
 ]
 

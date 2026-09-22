@@ -6,8 +6,8 @@ from gala.forms import InscriptionForm
 from gala.models import Gala, Boxeur
 from django.core.paginator import Paginator
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import ClubForm, BoxeurForm
-from .models import Club
+from .forms import ClubForm, BoxeurForm, GalaForm
+from .models import Club, Gala
 from django.db.models import ProtectedError
 # Create your views here.
 
@@ -129,3 +129,42 @@ def supprimer_boxeur(request, boxeur_id):
             messages.error("Impossible de supprimer ce boxeur. Il a deja un combat en cours")
         return redirect('gala:liste_boxeurs_staff')
     return render(request, 'gala/boxeur_confirmer_suppression.html', {'boxeur': boxeur})
+
+@staff_member_required
+def liste_galas_staff(request):
+    galas = Gala.objects.all()
+    return render(request, 'gala/gala_liste_staff.html', {'galas': galas})
+
+@staff_member_required
+def ajouter_gala(request):
+    if request.method == 'POST':
+        form = GalaForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Gala ajouté avec succès.")
+            return redirect('gala:liste_galas_staff')
+    else:
+        form = GalaForm()
+    return render(request, 'gala/gala_form.html', {'form': form})
+
+@staff_member_required
+def modifier_gala(request, gala_id):
+    gala = get_object_or_404(Gala, id=gala_id)
+    if request.method == 'POST':
+        form = GalaForm(request.POST, request.FILES, instance=gala)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Gala modifié avec succès.")
+            return redirect('gala:liste_galas_staff')
+    else:
+        form = GalaForm(instance=gala)
+    return render(request, 'gala/gala_form.html', {'form': form})
+
+@staff_member_required
+def supprimer_gala(request, gala_id):
+    gala = get_object_or_404(Gala, id=gala_id)
+    if request.method == 'POST':
+        gala.delete()
+        messages.success(request, "Gala supprimé avec succès.")
+        return redirect('gala:liste_galas_staff')
+    return render(request, 'gala/gala_confirmer_suppression.html', {'gala': gala})
