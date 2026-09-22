@@ -1,0 +1,17 @@
+<h1>{{ boxeur }}</h1>
+<p>{{ boxeur.nationalite }} — {{ boxeur.categorie }} — {{ boxeur.get_statut_display }}</p>
+<p>Club : {% if boxeur.club %}{{ boxeur.club }}{% else %}Indépendant{% endif %}</p>
+
+<h2>Record</h2>
+<p>{{ boxeur.victoires }} victoire(s) — {{ boxeur.defaites }} défaite(s) — {{ boxeur.nuls }} nul(s)</p>
+
+<h2>Historique des combats</h2>
+{% if combats %}
+    <ul>
+    {% for combat in combats %}
+        <li>{{ combat.gala }} — {{ combat.boxeur_rouge }} vs {{ combat.boxeur_bleu }} — {{ combat.get_resultat_display }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Ce boxeur n'a pas encore combattu.</p>
+{% endif %}

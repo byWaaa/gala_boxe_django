@@ -3,8 +3,9 @@ from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from gala.forms import InscriptionForm
-from gala.models import Gala
+from gala.models import Gala, Boxeur
 from django.core.paginator import Paginator
+
 # Create your views here.
 
 def accueil(request):
@@ -33,3 +34,15 @@ def detail_gala(request, gala_id):
     gala = get_object_or_404(Gala, id=gala_id)
     combat = gala.combats.all()  
     return render(request, 'gala/gala_detail.html', {'gala': gala, 'combats': combat})
+
+def liste_boxeur(request):
+    boxeur_list = Boxeur.objects.all()
+    paginator = Paginator(boxeur_list, 8)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'gala/boxeur_liste.html', {'page_obj': page_obj})
+
+def detail_boxeur(request, boxeur_id):
+    boxeur = get_object_or_404(Boxeur, id=boxeur_id)
+    combats = boxeur.combats_rouge.all() | boxeur.combats_bleu.all()
+    return render(request, 'gala/boxeur_detail.html', {'boxeur': boxeur, 'combats': combats})

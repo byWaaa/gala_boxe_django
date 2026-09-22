@@ -52,6 +52,21 @@ class Boxeur(models.Model):
     class Meta:
         ordering = ['nom', 'prenom']
 
+    @property
+    def victoires(self):
+        return self.combats_rouge.filter(resultat='victoire_rouge').count() + \
+            self.combats_bleu.filter(resultat='victoire_bleu').count()
+
+    @property
+    def defaites(self):
+        return self.combats_rouge.filter(resultat='victoire_bleu').count() + \
+            self.combats_bleu.filter(resultat='victoire_rouge').count()
+
+    @property
+    def nuls(self):
+        return self.combats_rouge.filter(resultat='nul').count() + \
+            self.combats_bleu.filter(resultat='nul').count()
+
 
 class Gala(models.Model):
     STATUT_CHOICES = [
