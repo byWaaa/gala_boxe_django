@@ -5,7 +5,9 @@ from django.shortcuts import redirect
 from gala.forms import InscriptionForm
 from gala.models import Gala, Boxeur
 from django.core.paginator import Paginator
-
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import ClubForm
+from .models import Club
 # Create your views here.
 
 def accueil(request):
@@ -46,3 +48,42 @@ def detail_boxeur(request, boxeur_id):
     boxeur = get_object_or_404(Boxeur, id=boxeur_id)
     combats = boxeur.combats_rouge.all() | boxeur.combats_bleu.all()
     return render(request, 'gala/boxeur_detail.html', {'boxeur': boxeur, 'combats': combats})
+
+#CRUD FORMULAIRE
+@staff_member_required
+def liste_clubs(request):
+    clubs = Club.objects.all()
+    return render(request, 'gala/club_liste.html', {'clubs':clubs})
+
+@staff_member_required
+def ajouter_club(request):
+    if request.method == 'POST':
+        form = ClubForm(request.POST, request.FILES)
+        if form.is_valid():
+            messages.success(request, "Club ajouté avec succès.")
+            return redirect('gala:liste_clubs')
+    else :
+        form = ClubForm()
+    return render(request, 'gala/club_form.html', {'form': form})
+
+@staff_member_required
+def modifier_club(request, club_id):
+    club = get_object_or_404(Club, id=club_id)
+    if request.method == 'POST':
+        form = ClubForm(request.POST, request.FILES, instance=club)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Club modifié avec succès.")
+            return redirect('gala:liste_clubs')
+    else:
+        form = ClubForm(instance=club)
+    return render(request, 'gala/club_form.html', {'form': form})
+
+@staff_member_required
+def supprimer_club(request, club_id):
+    club = get_object_or_404(Club, id=club_id)
+    if request.method == 'POST':
+        club.delete()
+        messages.success(request, "Club supprimé avec succès.")
+        return redirect('gala:liste_clubs')
+    return render(request, 'gala/club_confirmer_suppression.html', {'club': club})
