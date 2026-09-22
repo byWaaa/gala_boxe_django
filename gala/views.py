@@ -2,13 +2,13 @@ from django.contrib import messages
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import login
 from django.shortcuts import redirect
-from gala.form import InscriptionForm
+from gala.forms import InscriptionForm
 from gala.models import Gala
 from django.core.paginator import Paginator
 # Create your views here.
 
-def acceuil(request):
-    return render(request, 'gala/Acceuil.html')
+def accueil(request):
+    return render(request, 'gala/accueil.html')
 
 def inscription(request):
     if(request.method == 'POST'):
@@ -17,7 +17,7 @@ def inscription(request):
             user = form.save()
             login(request, user)
             messages.success(request, "Votre compte a été créé avec succès. Bienvenue dans TheMainEvent !")
-            return redirect('gala:acceuil')
+            return redirect('gala:accueil')
     else :
         form = InscriptionForm()
     return render(request, 'gala/inscription.html', {'form': form})
