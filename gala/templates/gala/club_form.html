@@ -1,0 +1,9 @@
+<h1>{% if form.instance.pk %}Modifier le club{% else %}Ajouter un club{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Enregistrer</button>
+</form>
+
+<a href="{% url 'gala:liste_clubs' %}">Retour à la liste</a>

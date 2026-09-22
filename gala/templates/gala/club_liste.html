@@ -1,0 +1,36 @@
+<h1>Gestion des clubs</h1>
+
+<a href="{% url 'gala:ajouter_club' %}">Ajouter un club</a>
+
+{% if messages %}
+    <ul>
+    {% for message in messages %}
+        <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+{% endif %}
+
+{% if clubs %}
+    <table border="1">
+        <tr>
+            <th>Nom</th>
+            <th>Ville</th>
+            <th>Nb combattants</th>
+            <th>Actions</th>
+        </tr>
+        {% for club in clubs %}
+        <tr>
+            <td>{{ club.nom }}</td>
+            <td>{{ club.ville }}</td>
+            <td>{{ club.nombre_combattants }}</td>
+            <td>
+                <a href="{% url 'gala:modifier_club' club.id %}">Modifier</a>
+                |
+                <a href="{% url 'gala:supprimer_club' club.id %}">Supprimer</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>Aucun club enregistré pour le moment.</p>
+{% endif %}

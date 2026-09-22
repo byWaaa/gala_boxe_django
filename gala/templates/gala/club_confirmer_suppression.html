@@ -1,0 +1,10 @@
+<h1>Confirmer la suppression</h1>
+
+<p>Es-tu sûr de vouloir supprimer le club <strong>{{ club.nom }}</strong> ? Cette action est irréversible.</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Oui, supprimer</button>
+</form>
+
+<a href="{% url 'gala:liste_clubs' %}">Annuler</a>
