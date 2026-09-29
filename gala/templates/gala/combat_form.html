@@ -1,0 +1,21 @@
+{% extends 'gala/base.html' %}
+{% block title %}{% if form.instance.pk %}Modifier le combat{% else %}Ajouter un combat{% endif %}{% endblock %}
+
+{% block content %}
+<h1 class="text-danger mb-4">{% if form.instance.pk %}Modifier le combat{% else %}Ajouter un combat{% endif %}</h1>
+
+{% if form.non_field_errors %}
+    <div class="alert alert-danger">
+        {% for error in form.non_field_errors %}
+            <p class="mb-0">{{ error }}</p>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<form method="post" class="col-md-6">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <a href="{% url 'gala:liste_combats_staff' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

@@ -1,38 +1,39 @@
-<h1>Gestion des galas</h1>
+{% extends 'gala/base.html' %}
+{% block title %}Gestion des galas{% endblock %}
 
-<a href="{% url 'gala:ajouter_gala' %}">Ajouter un gala</a>
-
-{% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-danger m-0">Gestion des galas</h1>
+    <a href="{% url 'gala:ajouter_gala' %}" class="btn btn-primary">+ Ajouter un gala</a>
+</div>
 
 {% if galas %}
-    <table border="1">
-        <tr>
-            <th>Nom</th>
-            <th>Date</th>
-            <th>Ville</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-        {% for gala in galas %}
-        <tr>
-            <td>{{ gala.nom }}</td>
-            <td>{{ gala.date }}</td>
-            <td>{{ gala.ville }}</td>
-            <td>{{ gala.get_statut_display }}</td>
-            <td>
-                <a href="{% url 'gala:modifier_gala' gala.id %}">Modifier</a>
-                |
-                <a href="{% url 'gala:supprimer_gala' gala.id %}">Supprimer</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Ville</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gala in galas %}
+            <tr>
+                <td>{{ gala.nom }}</td>
+                <td>{{ gala.date }}</td>
+                <td>{{ gala.ville }}</td>
+                <td>{{ gala.get_statut_display }}</td>
+                <td>
+                    <a href="{% url 'gala:modifier_gala' gala.id %}" class="btn btn-sm btn-outline-light">Modifier</a>
+                    <a href="{% url 'gala:supprimer_gala' gala.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% else %}
     <p>Aucun gala enregistré pour le moment.</p>
 {% endif %}
+{% endblock %}

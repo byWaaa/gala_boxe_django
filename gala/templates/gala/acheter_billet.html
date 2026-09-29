@@ -1,0 +1,39 @@
+{% extends 'gala/base.html' %}
+{% block title %}Acheter un billet{% endblock %}
+
+{% block content %}
+<h1 class="text-danger">Acheter un billet</h1>
+<p class="lead">{{ gala.nom }} — {{ gala.date }}, {{ gala.lieu }}, {{ gala.ville }}</p>
+
+{% if places_restantes > 0 %}
+    <div class="alert alert-info">Places restantes : {{ places_restantes }}</div>
+
+    <div class="row mb-4" style="max-width: 600px;">
+        <div class="col-4">
+            <div class="card text-center bg-dark"><div class="card-body">
+                <p class="mb-1">Gradin</p><h4>{{ prix_places.gradin }}$</h4>
+            </div></div>
+        </div>
+        <div class="col-4">
+            <div class="card text-center bg-dark"><div class="card-body">
+                <p class="mb-1">Ringside</p><h4>{{ prix_places.ringside }}$</h4>
+            </div></div>
+        </div>
+        <div class="col-4">
+            <div class="card text-center bg-dark"><div class="card-body">
+                <p class="mb-1">VIP</p><h4>{{ prix_places.vip }}$</h4>
+            </div></div>
+        </div>
+    </div>
+
+    <form method="post" class="col-md-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Acheter</button>
+    </form>
+{% else %}
+    <div class="alert alert-danger">Ce gala est complet, plus aucune place disponible.</div>
+{% endif %}
+
+<a href="{% url 'gala:detail_gala' gala.id %}" class="btn btn-secondary mt-3">Retour au gala</a>
+{% endblock %}

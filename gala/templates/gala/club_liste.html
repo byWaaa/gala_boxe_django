@@ -1,36 +1,37 @@
-<h1>Gestion des clubs</h1>
+{% extends 'gala/base.html' %}
+{% block title %}Gestion des clubs{% endblock %}
 
-<a href="{% url 'gala:ajouter_club' %}">Ajouter un club</a>
-
-{% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-danger m-0">Gestion des clubs</h1>
+    <a href="{% url 'gala:ajouter_club' %}" class="btn btn-primary">+ Ajouter un club</a>
+</div>
 
 {% if clubs %}
-    <table border="1">
-        <tr>
-            <th>Nom</th>
-            <th>Ville</th>
-            <th>Nb combattants</th>
-            <th>Actions</th>
-        </tr>
-        {% for club in clubs %}
-        <tr>
-            <td>{{ club.nom }}</td>
-            <td>{{ club.ville }}</td>
-            <td>{{ club.nombre_combattants }}</td>
-            <td>
-                <a href="{% url 'gala:modifier_club' club.id %}">Modifier</a>
-                |
-                <a href="{% url 'gala:supprimer_club' club.id %}">Supprimer</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Ville</th>
+                <th>Nb combattants</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for club in clubs %}
+            <tr>
+                <td>{{ club.nom }}</td>
+                <td>{{ club.ville }}</td>
+                <td>{{ club.nombre_combattants }}</td>
+                <td>
+                    <a href="{% url 'gala:modifier_club' club.id %}" class="btn btn-sm btn-outline-light">Modifier</a>
+                    <a href="{% url 'gala:supprimer_club' club.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% else %}
     <p>Aucun club enregistré pour le moment.</p>
 {% endif %}
+{% endblock %}

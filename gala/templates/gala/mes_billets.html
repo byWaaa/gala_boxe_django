@@ -1,0 +1,31 @@
+{% extends 'gala/base.html' %}
+{% block title %}Mes billets{% endblock %}
+
+{% block content %}
+<h1 class="text-danger mb-4">Mes billets</h1>
+
+{% if billets %}
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Gala</th>
+                <th>Type de place</th>
+                <th>Prix</th>
+                <th>Date d'achat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for billet in billets %}
+            <tr>
+                <td>{{ billet.gala.nom }}</td>
+                <td>{{ billet.get_type_place_display }}</td>
+                <td>{{ billet.prix }}$</td>
+                <td>{{ billet.date_achat }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Vous n'avez aucun billet pour le moment.</p>
+{% endif %}
+{% endblock %}

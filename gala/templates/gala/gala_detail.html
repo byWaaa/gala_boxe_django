@@ -1,14 +1,39 @@
-<h1>{{ gala.nom }}</h1>
-<p>{{ gala.date }} — {{ gala.lieu }}, {{ gala.ville }}</p>
+{% extends 'gala/base.html' %}
+{% block title %}{{ gala.nom }}{% endblock %}
+
+{% block content %}
+<h1 class="text-danger">{{ gala.nom }}</h1>
+<p class="lead">{{ gala.date }} — {{ gala.lieu }}, {{ gala.ville }}</p>
+<span class="badge bg-secondary mb-3">{{ gala.get_statut_display }}</span>
 <p>{{ gala.description }}</p>
 
-<h2>Combats</h2>
+<a href="{% url 'gala:acheter_billet' gala.id %}" class="btn btn-primary mb-4">Acheter un billet</a>
+
+<h2 class="mt-4">Combats</h2>
 {% if combats %}
-    <ul>
-    {% for combat in combats %}
-        <li>{{ combat.boxeur_rouge }} vs {{ combat.boxeur_bleu }} — {{ combat.get_resultat_display }}</li>
-    {% endfor %}
-    </ul>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Coin rouge</th>
+                <th>Coin bleu</th>
+                <th>Catégorie</th>
+                <th>Type</th>
+                <th>Résultat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for combat in combats %}
+            <tr>
+                <td>{{ combat.boxeur_rouge }}</td>
+                <td>{{ combat.boxeur_bleu }}</td>
+                <td>{{ combat.categorie }}</td>
+                <td>{{ combat.get_type_combat_display }}</td>
+                <td>{{ combat.get_resultat_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <p>Aucun combat programmé pour ce gala.</p>
 {% endif %}
+{% endblock %}

@@ -1,38 +1,39 @@
-<h1>Gestion des boxeurs</h1>
+{% extends 'gala/base.html' %}
+{% block title %}Gestion des boxeurs{% endblock %}
 
-<a href="{% url 'gala:ajouter_boxeur' %}">Ajouter un boxeur</a>
-
-{% if messages %}
-    <ul>
-    {% for message in messages %}
-        <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-{% endif %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-danger m-0">Gestion des boxeurs</h1>
+    <a href="{% url 'gala:ajouter_boxeur' %}" class="btn btn-primary">+ Ajouter un boxeur</a>
+</div>
 
 {% if boxeurs %}
-    <table border="1">
-        <tr>
-            <th>Nom</th>
-            <th>Club</th>
-            <th>Catégorie</th>
-            <th>Statut</th>
-            <th>Actions</th>
-        </tr>
-        {% for boxeur in boxeurs %}
-        <tr>
-            <td>{{ boxeur }}</td>
-            <td>{% if boxeur.club %}{{ boxeur.club }}{% else %}Indépendant{% endif %}</td>
-            <td>{{ boxeur.categorie }}</td>
-            <td>{{ boxeur.get_statut_display }}</td>
-            <td>
-                <a href="{% url 'gala:modifier_boxeur' boxeur.id %}">Modifier</a>
-                |
-                <a href="{% url 'gala:supprimer_boxeur' boxeur.id %}">Supprimer</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Club</th>
+                <th>Catégorie</th>
+                <th>Statut</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for boxeur in boxeurs %}
+            <tr>
+                <td>{{ boxeur }}</td>
+                <td>{% if boxeur.club %}{{ boxeur.club }}{% else %}Indépendant{% endif %}</td>
+                <td>{{ boxeur.categorie }}</td>
+                <td>{{ boxeur.get_statut_display }}</td>
+                <td>
+                    <a href="{% url 'gala:modifier_boxeur' boxeur.id %}" class="btn btn-sm btn-outline-light">Modifier</a>
+                    <a href="{% url 'gala:supprimer_boxeur' boxeur.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% else %}
     <p>Aucun boxeur enregistré pour le moment.</p>
 {% endif %}
+{% endblock %}

@@ -1,14 +1,46 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceuil</title>
-</head>
-<body>
-    <form method="post" action="{% url 'logout' %}">
-    {% csrf_token %}
-    <button type="submit">Se déconnecter</button>
-</form>
-</body>
-</html>
+{% extends 'gala/base.html' %}
+
+{% block title %}Accueil — The Main Event{% endblock %}
+
+{% block content %}
+<h1 class="text-danger">Bienvenue sur The Main Event</h1>
+
+<h2 class="mt-4">Prochains galas</h2>
+{% if prochains_galas %}
+    <div class="row">
+    {% for gala in prochains_galas %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ gala.nom }}</h5>
+                    <p class="card-text">{{ gala.date }} — {{ gala.ville }}</p>
+                    <a href="{% url 'gala:detail_gala' gala.id %}" class="btn btn-primary">Voir le gala</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+{% else %}
+    <p>Aucun gala à venir pour le moment.</p>
+{% endif %}
+
+<h2 class="mt-4">Dernier gala</h2>
+{% if dernier_gala_termine %}
+    <p>
+        <a href="{% url 'gala:detail_gala' dernier_gala_termine.id %}">{{ dernier_gala_termine.nom }}</a>
+        — {{ dernier_gala_termine.date }}
+    </p>
+{% else %}
+    <p>Aucun gala terminé pour le moment.</p>
+{% endif %}
+
+<h2 class="mt-4">Statistiques</h2>
+<ul class="list-group list-group-flush" style="max-width: 400px;">
+    <li class="list-group-item bg-dark text-white">{{ nb_boxeurs_actifs }} boxeurs actifs</li>
+    <li class="list-group-item bg-dark text-white">{{ nb_galas }} galas organisés</li>
+    <li class="list-group-item bg-dark text-white">{{ nb_combats }} combats disputés</li>
+    {% if meilleur_boxeur %}
+        <li class="list-group-item bg-dark text-white">Meilleur boxeur : {{ meilleur_boxeur }} ({{ meilleur_boxeur.victoires }} victoires)</li>
+    {% endif %}
+</ul>
+{% endblock %}

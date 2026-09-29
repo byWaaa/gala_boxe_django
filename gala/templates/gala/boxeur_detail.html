@@ -1,17 +1,63 @@
-<h1>{{ boxeur }}</h1>
-<p>{{ boxeur.nationalite }} — {{ boxeur.categorie }} — {{ boxeur.get_statut_display }}</p>
+{% extends 'gala/base.html' %}
+{% block title %}{{ boxeur }}{% endblock %}
+
+{% block content %}
+<h1 class="text-danger">{{ boxeur }}</h1>
+<p class="lead">{{ boxeur.nationalite }} — {{ boxeur.categorie }}</p>
+<span class="badge bg-secondary mb-3">{{ boxeur.get_statut_display }}</span>
 <p>Club : {% if boxeur.club %}{{ boxeur.club }}{% else %}Indépendant{% endif %}</p>
 
-<h2>Record</h2>
-<p>{{ boxeur.victoires }} victoire(s) — {{ boxeur.defaites }} défaite(s) — {{ boxeur.nuls }} nul(s)</p>
+<h2 class="mt-4">Record</h2>
+<div class="row mb-4" style="max-width: 500px;">
+    <div class="col-4">
+        <div class="card text-center bg-dark">
+            <div class="card-body">
+                <h3 class="text-success">{{ boxeur.victoires }}</h3>
+                <p class="mb-0">Victoires</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card text-center bg-dark">
+            <div class="card-body">
+                <h3 class="text-danger">{{ boxeur.defaites }}</h3>
+                <p class="mb-0">Défaites</p>
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card text-center bg-dark">
+            <div class="card-body">
+                <h3 class="text-warning">{{ boxeur.nuls }}</h3>
+                <p class="mb-0">Nuls</p>
+            </div>
+        </div>
+    </div>
+</div>
 
 <h2>Historique des combats</h2>
 {% if combats %}
-    <ul>
-    {% for combat in combats %}
-        <li>{{ combat.gala }} — {{ combat.boxeur_rouge }} vs {{ combat.boxeur_bleu }} — {{ combat.get_resultat_display }}</li>
-    {% endfor %}
-    </ul>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Gala</th>
+                <th>Adversaire</th>
+                <th>Résultat</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for combat in combats %}
+            <tr>
+                <td>{{ combat.gala }}</td>
+                <td>
+                    {% if combat.boxeur_rouge == boxeur %}{{ combat.boxeur_bleu }}{% else %}{{ combat.boxeur_rouge }}{% endif %}
+                </td>
+                <td>{{ combat.get_resultat_display }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 {% else %}
     <p>Ce boxeur n'a pas encore combattu.</p>
 {% endif %}
+{% endblock %}

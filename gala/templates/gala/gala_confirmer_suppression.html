@@ -5,12 +5,13 @@
 <h1 class="text-danger mb-4">Confirmer la suppression</h1>
 
 <div class="alert alert-warning">
-    Es-tu sûr de vouloir supprimer le boxeur <strong>{{ boxeur }}</strong> ? Cette action est irréversible.
+    Es-tu sûr de vouloir supprimer le gala <strong>{{ gala.nom }}</strong> ?
+    Tous ses combats et billets associés seront aussi supprimés. Cette action est irréversible.
 </div>
 
 <form method="post">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Oui, supprimer</button>
-    <a href="{% url 'gala:liste_boxeurs_staff' %}" class="btn btn-secondary">Annuler</a>
+    <a href="{% url 'gala:liste_galas_staff' %}" class="btn btn-secondary">Annuler</a>
 </form>
 {% endblock %}

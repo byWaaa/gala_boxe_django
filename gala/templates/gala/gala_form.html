@@ -1,0 +1,13 @@
+{% extends 'gala/base.html' %}
+{% block title %}{% if form.instance.pk %}Modifier le gala{% else %}Ajouter un gala{% endif %}{% endblock %}
+
+{% block content %}
+<h1 class="text-danger mb-4">{% if form.instance.pk %}Modifier le gala{% else %}Ajouter un gala{% endif %}</h1>
+
+<form method="post" enctype="multipart/form-data" class="col-md-6">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    <a href="{% url 'gala:liste_galas_staff' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

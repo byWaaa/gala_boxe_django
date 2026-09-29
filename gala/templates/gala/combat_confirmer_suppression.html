@@ -1,0 +1,18 @@
+{% extends 'gala/base.html' %}
+{% block title %}Confirmer la suppression{% endblock %}
+
+{% block content %}
+<h1 class="text-danger mb-4">Confirmer la suppression</h1>
+
+<div class="alert alert-warning">
+    Es-tu sûr de vouloir supprimer le combat <strong>{{ combat }}</strong> ?
+    Cette action nécessite une raison, qui sera archivée dans l'historique.
+</div>
+
+<form method="post" class="col-md-6">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-danger">Confirmer la suppression</button>
+    <a href="{% url 'gala:liste_combats_staff' %}" class="btn btn-secondary">Annuler</a>
+</form>
+{% endblock %}

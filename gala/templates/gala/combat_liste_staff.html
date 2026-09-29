@@ -1,0 +1,39 @@
+{% extends 'gala/base.html' %}
+{% block title %}Gestion des combats{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="text-danger m-0">Gestion des combats</h1>
+    <a href="{% url 'gala:ajouter_combat' %}" class="btn btn-primary">+ Ajouter un combat</a>
+</div>
+
+{% if combats %}
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>Gala</th>
+                <th>Combat</th>
+                <th>Type</th>
+                <th>Résultat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for combat in combats %}
+            <tr>
+                <td>{{ combat.gala }}</td>
+                <td>{{ combat.boxeur_rouge }} vs {{ combat.boxeur_bleu }}</td>
+                <td>{{ combat.get_type_combat_display }}</td>
+                <td>{{ combat.get_resultat_display }}</td>
+                <td>
+                    <a href="{% url 'gala:modifier_combat' combat.id %}" class="btn btn-sm btn-outline-light">Modifier</a>
+                    <a href="{% url 'gala:supprimer_combat' combat.id %}" class="btn btn-sm btn-danger">Supprimer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Aucun combat enregistré pour le moment.</p>
+{% endif %}
+{% endblock %}

@@ -22,5 +22,11 @@ urlpatterns = [
     path('galas-staff/ajouter/', views.ajouter_gala, name='ajouter_gala'),
     path('galas-staff/<int:gala_id>/modifier/', views.modifier_gala, name='modifier_gala'),
     path('galas-staff/<int:gala_id>/supprimer/', views.supprimer_gala, name='supprimer_gala'),
+    path('combats-staff/', views.liste_combats_staff, name='liste_combats_staff'),
+    path('combats-staff/ajouter/', views.ajouter_combat, name='ajouter_combat'),
+    path('combats-staff/<int:combat_id>/modifier/', views.modifier_combat, name='modifier_combat'),
+    path('combats-staff/<int:combat_id>/supprimer/', views.supprimer_combat, name='supprimer_combat'),
+    path('galas/<int:gala_id>/acheter/', views.acheter_billet, name='acheter_billet'),
+    path('mes-billets/', views.mes_billets, name='mes_billets'),
 ]
 
